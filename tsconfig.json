@@ -1,0 +1,13 @@
+{
+  "extends": "@tsconfig/node22/tsconfig.json",
+
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "outDir": "build",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
