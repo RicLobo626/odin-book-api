@@ -8,6 +8,7 @@ export default tseslint.config({
   ignores: ["build/**/*"],
   rules: {
     quotes: ["error", "double"],
+    "no-console": "error",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
