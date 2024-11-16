@@ -1,12 +1,5 @@
 import { PORT } from "@/utils/config.js";
-import express, { Request, Response } from "express";
+import app from "@/app.js";
+import logger from "@/utils/logger.js";
 
-const app = express();
-
-app.get("/", (_req: Request, res: Response) => {
-  res.send("Hello world");
-});
-
-app.listen(PORT, () => {
-  console.log(`[server]: Server is running at http://localhost:${PORT}`);
-});
+app.listen(PORT, () => logger.info(`Server is running on port ${PORT}`));
