@@ -20,6 +20,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-async-errors": "^3.1.1",
+    "morgan": "^1.10.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "@tsconfig/node22": "^22.0.0",
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.8.1",
     "eslint": "^9.13.0",
     "prisma": "^5.22.0",

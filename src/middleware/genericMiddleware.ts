@@ -1,6 +1,15 @@
 import { CustomError } from "@/errors/index.js";
 import { Request, Response, NextFunction } from "express";
 import { z, ZodError, ZodIssue, ZodRawShape } from "zod";
+import morgan from "morgan";
+
+const getRequestLogger = () => {
+  morgan.token("body", (req: Request) => JSON.stringify(req.body));
+
+  return morgan(":method :url :body :status :res[content-length] - :response-time ms");
+};
+
+export const requestLogger = getRequestLogger();
 
 export const bodyValidator = (schema: z.ZodObject<ZodRawShape>) => {
   return (req: Request, _res: Response, next: NextFunction) => {

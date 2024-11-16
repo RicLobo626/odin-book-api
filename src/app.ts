@@ -6,6 +6,7 @@ import middleware from "@/middleware/index.js";
 const app = express();
 
 app.use(express.json());
+app.use(middleware.requestLogger);
 app.use(routes);
 app.use(middleware.errorHandler);
 
