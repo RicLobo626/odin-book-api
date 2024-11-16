@@ -1,4 +1,4 @@
-import { CustomError } from "@/errors/index.js";
+import { CustomError, NotFoundError } from "@/errors/index.js";
 import { Request, Response, NextFunction } from "express";
 import { z, ZodError, ZodIssue, ZodRawShape } from "zod";
 import morgan from "morgan";
@@ -16,6 +16,10 @@ export const bodyValidator = (schema: z.ZodObject<ZodRawShape>) => {
     schema.parse(req.body);
     next();
   };
+};
+
+export const unknownEndpointHandler = () => {
+  throw new NotFoundError("Unknown endpoint");
 };
 
 export const errorHandler = (error: Error, _req: Request, res: Response, next: NextFunction) => {
