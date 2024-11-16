@@ -1,3 +1,4 @@
+import { CustomError } from "@/errors/index.js";
 import { Request, Response, NextFunction } from "express";
 import { z, ZodError, ZodIssue, ZodRawShape } from "zod";
 
@@ -15,6 +16,8 @@ export const errorHandler = (error: Error, _req: Request, res: Response, next: N
     }));
 
     res.status(400).json({ error: "Invalid data", details });
+  } else if (error instanceof CustomError) {
+    res.status(error.statusCode).json({ error: error.message });
   } else {
     next(error);
   }

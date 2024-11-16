@@ -1,15 +1,24 @@
 import db from "@/db/index.js";
-import { NewUser } from "@/types/index.js";
+import { NotFoundError } from "@/errors/index.js";
+import { NewUser, User } from "@/types/index.js";
 
-const findUsers = async () => {
-  return await db.user.findMany();
-};
+const findUsers = () => db.user.findMany();
 
-const createUser = async (data: NewUser) => {
-  return await db.user.create({ data });
+const createUser = (data: NewUser) => db.user.create({ data });
+
+const findUserById = async (id: User["id"]) => {
+  const where = { id };
+  const user = await db.user.findUnique({ where });
+
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  return user;
 };
 
 export default {
   findUsers,
+  findUserById,
   createUser,
 };

@@ -8,6 +8,13 @@ const getUsers = async (_req: Request, res: Response<User[]>) => {
   res.json(users);
 };
 
+const getUser = async (req: Request<{ id: string }>, res: Response<User>) => {
+  const id = +req.params.id;
+  const user = await service.findUserById(id);
+
+  res.json(user);
+};
+
 const createUser = async (req: Request<unknown, unknown, NewUser>, res: Response<User>) => {
   const data = req.body;
 
@@ -18,5 +25,6 @@ const createUser = async (req: Request<unknown, unknown, NewUser>, res: Response
 
 export default {
   getUsers,
+  getUser,
   createUser,
 };
