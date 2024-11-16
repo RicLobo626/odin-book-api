@@ -5,6 +5,7 @@ import { Router } from "express";
 
 const router = Router();
 
+router.get("/", controller.getUsers);
 router.post("/", middleware.bodyValidator(newUserSchema), controller.createUser);
 
 export default router;
