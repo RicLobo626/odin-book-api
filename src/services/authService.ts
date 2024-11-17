@@ -1,7 +1,7 @@
 import db from "@/db/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { NotFoundError, ValidationError } from "@/errors/index.js";
+import { NonUniqueEmailError, NotFoundError, ValidationError } from "@/errors/index.js";
 import { NewUser, User } from "@/types/index.js";
 import { JWT_SECRET } from "@/utils/config.js";
 
@@ -42,8 +42,19 @@ const register = async ({ password, ...otherFields }: NewUser) => {
   return db.user.create({ data });
 };
 
+const checkEmailAvailability = async (email: string) => {
+  const user = await db.user.findUnique({ where: { email } });
+
+  if (user) {
+    throw new NonUniqueEmailError();
+  }
+
+  return true;
+};
+
 export default {
   register,
   verifyLogin,
   signToken,
+  checkEmailAvailability,
 };

@@ -6,7 +6,12 @@ import controller from "@/controllers/authController.js";
 
 const router = Router();
 
-router.post("/register", middleware.bodyValidator(newUserSchema), controller.register);
+router.post(
+  "/register",
+  middleware.bodyValidator(newUserSchema),
+  middleware.emailChecker,
+  controller.register
+);
 
 router.post(
   "/login",

@@ -1,3 +1,4 @@
+import { emailChecker } from "@/middleware/authMiddleware.js";
 import {
   bodyValidator,
   errorHandler,
@@ -12,4 +13,5 @@ export default {
   requestLogger,
   unknownEndpointHandler,
   errorIdentifier,
+  emailChecker,
 };
