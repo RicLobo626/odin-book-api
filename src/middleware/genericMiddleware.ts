@@ -1,7 +1,8 @@
-import { CustomError, NotFoundError } from "@/errors/index.js";
+import { CustomError, NotFoundError, ValidationError } from "@/errors/index.js";
 import { Request, Response, NextFunction } from "express";
-import { z, ZodError, ZodIssue, ZodRawShape } from "zod";
+import { ZodError, ZodIssue, ZodRawShape, ZodObject } from "zod";
 import morgan from "morgan";
+import logger from "@/utils/logger.js";
 
 const getRequestLogger = () => {
   morgan.token("body", (req: Request) => JSON.stringify(req.body));
@@ -11,7 +12,7 @@ const getRequestLogger = () => {
 
 export const requestLogger = getRequestLogger();
 
-export const bodyValidator = (schema: z.ZodObject<ZodRawShape>) => {
+export const bodyValidator = (schema: ZodObject<ZodRawShape>) => {
   return (req: Request, _res: Response, next: NextFunction) => {
     schema.parse(req.body);
     next();
@@ -22,16 +23,29 @@ export const unknownEndpointHandler = () => {
   throw new NotFoundError("Unknown endpoint");
 };
 
-export const errorHandler = (error: Error, _req: Request, res: Response, next: NextFunction) => {
+export const errorIdentifier = (error: Error, _req: Request, _res: Response, next: NextFunction) => {
   if (error instanceof ZodError) {
-    const details = error.errors.map((issue: ZodIssue) => ({
-      message: `${issue.path.join(".")} is ${issue.message}`,
-    }));
+    const details: { [key: string]: string } = {};
 
-    res.status(400).json({ error: "Invalid data", details });
-  } else if (error instanceof CustomError) {
-    res.status(error.statusCode).json({ error: error.message });
-  } else {
-    next(error);
+    error.errors.forEach((issue: ZodIssue) => {
+      const field = issue.path.join(".");
+
+      details[field] = issue.message;
+    });
+
+    throw new ValidationError("Invalid data", details);
   }
+
+  next(error);
+};
+
+export const errorHandler = (error: Error, _req: Request, res: Response, next: NextFunction) => {
+  logger.error(error);
+
+  if (error instanceof CustomError) {
+    res.status(error.statusCode).json({ error: error.message, details: error.details });
+    return;
+  }
+
+  next(error);
 };

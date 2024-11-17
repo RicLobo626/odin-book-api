@@ -3,6 +3,7 @@ import {
   errorHandler,
   requestLogger,
   unknownEndpointHandler,
+  errorIdentifier,
 } from "@/middleware/genericMiddleware.js";
 
 export default {
@@ -10,4 +11,5 @@ export default {
   errorHandler,
   requestLogger,
   unknownEndpointHandler,
+  errorIdentifier,
 };

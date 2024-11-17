@@ -12,6 +12,7 @@ app.use(passport.initialize());
 app.use(middleware.requestLogger);
 app.use(routes);
 app.use(middleware.unknownEndpointHandler);
+app.use(middleware.errorIdentifier);
 app.use(middleware.errorHandler);
 
 export default app;

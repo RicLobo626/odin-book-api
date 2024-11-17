@@ -1,25 +1,27 @@
 export class CustomError extends Error {
-  statusCode = 500;
+  statusCode: number = 500;
+  details?: unknown;
 
-  constructor(message: string) {
+  constructor(message: string, details?: unknown) {
     super(message);
     this.name = this.constructor.name;
+    this.details = details;
     Error.captureStackTrace(this, this.constructor);
   }
 }
 
 export class NotFoundError extends CustomError {
-  statusCode = 404;
+  statusCode: number = 404;
 
-  constructor(message = "Not found") {
-    super(message);
+  constructor(message = "Not found", details?: unknown) {
+    super(message, details);
   }
 }
 
 export class ValidationError extends CustomError {
-  statusCode = 400;
+  statusCode: number = 400;
 
-  constructor(message = "Invalid data") {
-    super(message);
+  constructor(message = "Invalid data", details?: unknown) {
+    super(message, details);
   }
 }
