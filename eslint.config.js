@@ -9,6 +9,7 @@ export default tseslint.config({
   rules: {
     quotes: ["error", "double"],
     "no-console": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
