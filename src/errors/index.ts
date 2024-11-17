@@ -15,3 +15,11 @@ export class NotFoundError extends CustomError {
     super(message);
   }
 }
+
+export class ValidationError extends CustomError {
+  statusCode = 400;
+
+  constructor(message = "Invalid data") {
+    super(message);
+  }
+}
