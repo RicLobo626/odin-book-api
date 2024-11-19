@@ -1,2 +1,2 @@
-export { userSchema, newUserSchema, loginSchema } from "@/schemas/authSchemas.js";
+export { newUserSchema, userSchema, loginSchema } from "@/schemas/userSchemas.js";
 export { postSchema, newPostSchema } from "@/schemas/postSchemas.js";

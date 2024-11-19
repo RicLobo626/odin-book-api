@@ -1,5 +1,5 @@
-import { newUserSchema, userSchema } from "@/schemas/authSchemas.js";
+import { newUserSchema, userSchema } from "@/schemas/index.js";
 import { z } from "zod";
 
-export type User = z.infer<typeof userSchema>;
 export type NewUser = z.infer<typeof newUserSchema>;
+export type User = z.infer<typeof userSchema>;
