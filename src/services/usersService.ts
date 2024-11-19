@@ -1,6 +1,6 @@
 import db from "@/db/index.js";
 import { NotFoundError } from "@/errors/index.js";
-import { User } from "@/types/index.js";
+import { NewUser, User } from "@/types/index.js";
 
 const findUsers = () => db.user.findMany();
 
@@ -14,7 +14,10 @@ const findUserById = async (id: User["id"]) => {
   return user;
 };
 
+const createUser = (data: NewUser) => db.user.create({ data });
+
 export default {
   findUsers,
   findUserById,
+  createUser,
 };

@@ -33,13 +33,9 @@ const signToken = async ({ id, firstName, lastName }: User) => {
   return jwt.sign(tokenPayload, JWT_SECRET!);
 };
 
-const register = async ({ password, ...otherFields }: NewUser) => {
+const hashPassword = (password: NewUser["password"]) => {
   const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-  const data = { ...otherFields, password: hashedPassword };
-
-  return db.user.create({ data });
+  return bcrypt.hash(password, saltRounds);
 };
 
 const checkEmailAvailability = async (email: string) => {
@@ -53,7 +49,7 @@ const checkEmailAvailability = async (email: string) => {
 };
 
 export default {
-  register,
+  hashPassword,
   verifyLogin,
   signToken,
   checkEmailAvailability,

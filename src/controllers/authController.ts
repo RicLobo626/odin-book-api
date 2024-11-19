@@ -1,10 +1,13 @@
 import service from "@/services/authService.js";
+import usersService from "@/services/usersService.js";
 import { NewUser, User } from "@/types/index.js";
 import { Request, Response } from "express";
 
 const register = async (req: Request<unknown, unknown, NewUser>, res: Response<User>) => {
-  const body = req.body;
-  const user = await service.register(body);
+  const { password, ...otherFields } = req.body;
+  const hashedPassword = await service.hashPassword(password);
+
+  const user = await usersService.createUser({ ...otherFields, password: hashedPassword });
 
   res.json(user);
 };
