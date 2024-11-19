@@ -9,6 +9,17 @@ const createPost = async (data: NewPost, user: User) => {
   return createdPost;
 };
 
+const findPosts = () => {
+  return db.post.findMany({
+    include: {
+      author: {
+        select: { id: true, fullName: true },
+      },
+    },
+  });
+};
+
 export default {
   createPost,
+  findPosts,
 };

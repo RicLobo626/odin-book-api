@@ -1,7 +1,7 @@
 import passport from "passport";
 import middleware from "@/middleware/index.js";
 import { Router } from "express";
-import { loginSchema, newUserSchema } from "@/schemas/authSchemas.js";
+import { loginSchema, newUserSchema } from "@/schemas/userSchemas.js";
 import controller from "@/controllers/authController.js";
 
 const router = Router();
