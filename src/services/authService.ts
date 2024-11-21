@@ -2,7 +2,7 @@ import db from "@/db/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { NonUniqueEmailError, NotFoundError, ValidationError } from "@/errors/index.js";
-import { NewUser, User } from "@/types/index.js";
+import { NewUser, PublicUser } from "@/types/index.js";
 import { JWT_SECRET } from "@/utils/config.js";
 
 const verifyLogin = async (email: string, password: string) => {
@@ -26,8 +26,7 @@ const verifyLogin = async (email: string, password: string) => {
   return nonSensitiveUser;
 };
 
-const signToken = async ({ id, firstName, lastName }: User) => {
-  const fullName = `${firstName} ${lastName}`;
+const signToken = async ({ id, fullName }: PublicUser) => {
   const tokenPayload = { id, fullName };
 
   return jwt.sign(tokenPayload, JWT_SECRET!);

@@ -6,6 +6,7 @@ export default new PrismaClient({
       password: true,
       firstName: true,
       lastName: true,
+      email: true,
     },
   },
 }).$extends({
