@@ -1,7 +1,7 @@
 import db from "@/db/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { NonUniqueEmailError, NotFoundError, ValidationError } from "@/errors/index.js";
+import { NonUniqueEmailError, ValidationError } from "@/errors/index.js";
 import { NewUser, PublicUser } from "@/types/index.js";
 import { JWT_SECRET } from "@/utils/config.js";
 
@@ -11,8 +11,11 @@ const verifyLogin = async (email: string, password: string) => {
     omit: { password: false },
   });
 
+  const errorMsg = "Invalid login";
+  const errorDetails = { email: "Email or password are invalid" };
+
   if (!user) {
-    throw new NotFoundError("Invalid email");
+    throw new ValidationError(errorMsg, errorDetails);
   }
 
   const { password: passwordHash, ...nonSensitiveUser } = user;
@@ -20,7 +23,7 @@ const verifyLogin = async (email: string, password: string) => {
   const isValidPassword = await bcrypt.compare(password, passwordHash);
 
   if (!isValidPassword) {
-    throw new ValidationError("Invalid password");
+    throw new ValidationError(errorMsg, errorDetails);
   }
 
   return nonSensitiveUser;
